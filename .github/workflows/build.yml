@@ -1,0 +1,28 @@
+name: Build Rive framework
+
+on:
+  push
+  # push:
+  #   tags:
+  #     - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.RIVE_REPO_PAT }}
+          submodules: recursive
+      - name: Init submodule
+        run: git submodule update --init
+      - id: build_aar
+        name: Build flutter 
+        run: ./gradlew kotlin:assembleRelease
+      - name: Upload artifact
+        needs: 
+        uses: actions/upload-artifact@v2
+        with:
+          name: rive
+          path: kotlin/build/outputs/aar/kotlin-release.aar
