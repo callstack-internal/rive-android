@@ -17,6 +17,11 @@ jobs:
           submodules: recursive
       - name: Init submodule
         run: git submodule update --init
+      - name: Set up Android
+        # Download & install the Android SDK.
+        uses: malinskiy/action-android/install-sdk@release/0.1.1
+        # Set up platform tools like adb.
+        run: sdkmanager platform-tools
       - id: build_aar
         name: Build flutter 
         run: ./gradlew kotlin:assembleRelease
