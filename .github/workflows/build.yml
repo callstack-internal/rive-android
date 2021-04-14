@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -17,17 +17,11 @@ jobs:
           submodules: recursive
       - name: Init submodule
         run: git submodule update --init
-
-      # Download & install the Android SDK.
-      - name: Set up Android
-        uses: malinskiy/action-android/install-sdk@release/0.1.1
-      # Set up platform tools like adb.
-      - run: sdkmanager platform-tools
       - name: Build Android
-        # Download & install the Android SDK.
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.1
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          cmd: ./gradlew kotlin:assembleRelease
+          api-level: 29
+          script: ./gradlew kotlin:assembleRelease
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
