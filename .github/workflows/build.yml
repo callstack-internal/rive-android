@@ -21,7 +21,6 @@ jobs:
         name: Build flutter 
         run: ./gradlew kotlin:assembleRelease
       - name: Upload artifact
-        needs: 
         uses: actions/upload-artifact@v2
         with:
           name: rive
