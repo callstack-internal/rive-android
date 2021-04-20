@@ -8,8 +8,6 @@ ext["signing.secretKeyRingFile"] = ''
 
 File secretPropsFile = project.rootProject.file('local.properties')
 if (secretPropsFile.exists()) {
-    println "TAKE STUFF FROM PROPS FILE......"
-
     // Read local.properties file first if it exists
     Properties p = new Properties()
     new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
