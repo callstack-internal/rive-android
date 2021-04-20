@@ -1,7 +1,6 @@
 name: Build Rive framework
 
 on:
-on:
   release:
     types: [released]
 
