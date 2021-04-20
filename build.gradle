@@ -1,4 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+group = "com.example.library"
+version = "1.0.0"
+apply plugin: "io.github.gradle-nexus.publish-plugin"
+
+ext {
+    PUBLISH_GROUP_ID = 'io.github.callstack-internal'
+    PUBLISH_VERSION = '0.0.1'
+    PUBLISH_ARTIFACT_ID = 'kotlin-release'
+}
+
 buildscript {
     ext{
         kotlin_version = "1.4.0"
@@ -8,15 +18,18 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}")
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath("io.github.gradle-nexus:publish-plugin:1.0.0")
     }
 
 }
@@ -37,3 +50,5 @@ task clean(type: Delete) {
     // dependsOn(cleanDeps)
     delete rootProject.buildDir
 }
+
+apply from: "${rootDir}/scripts/publish-root.gradle"
