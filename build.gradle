@@ -2,11 +2,13 @@
 group = "com.example.library"
 version = "1.0.0"
 apply plugin: "io.github.gradle-nexus.publish-plugin"
-apply plugin: 'com.pascalwelsch.gitversioner'
+apply plugin: 'com.palantir.git-version'
+
+def details = versionDetails()
 
 ext {
     PUBLISH_GROUP_ID = 'io.github.callstack-internal'
-    PUBLISH_VERSION = gitVersioner.versionName
+    PUBLISH_VERSION = details.lastTag
     PUBLISH_ARTIFACT_ID = 'rive'
 }
 
@@ -30,7 +32,7 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath("io.github.gradle-nexus:publish-plugin:1.0.0")
-        classpath 'com.pascalwelsch.gitversioner:gitversioner:0.4.1'
+        classpath "com.palantir.gradle.gitversion:gradle-git-version:0.12.3"
     }
 
 }
@@ -50,19 +52,6 @@ task cleanDeps(type: Exec) {
 task clean(type: Delete) {
     // dependsOn(cleanDeps)
     delete rootProject.buildDir
-}
-
-gitVersioner {
-    def branches = ['develop', 'main']
-    baseBranch branchName in branches ? branchName : branches[0]
-    yearFactor 100
-//    formatter = { gitVersioner ->
-//        "1.${gitVersioner.versionCode}.${gitVersioner.featureBranchCommitCount}.${gitVersioner.currentSha1Short}"
-//    }
-    formatter = { gitVersioner ->
-        "1.${gitVersioner.versionCode}.${gitVersioner.featureBranchCommitCount}.${gitVersioner.currentSha1Short}"
-    }
-
 }
 
 apply from: "${rootDir}/scripts/publish-root.gradle"
