@@ -15,6 +15,7 @@ ext {
 buildscript {
     ext{
         kotlin_version = "1.4.0"
+        dokkaVersion = "1.4.30"
     }
 
     repositories {
